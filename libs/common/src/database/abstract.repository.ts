@@ -1,11 +1,11 @@
 import { Logger, NotFoundException } from '@nestjs/common';
 import {
+  Connection,
   FilterQuery,
   Model,
+  SaveOptions,
   Types,
   UpdateQuery,
-  SaveOptions,
-  Connection,
 } from 'mongoose';
 import { AbstractDocument } from './abstract.schema';
 
@@ -71,6 +71,10 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
 
   async find(filterQuery: FilterQuery<TDocument>) {
     return this.model.find(filterQuery, {}, { lean: true });
+  }
+
+  async exists(filterQuery: FilterQuery<TDocument>) {
+    return this.model.exists(filterQuery).exec();
   }
 
   async startTransaction() {

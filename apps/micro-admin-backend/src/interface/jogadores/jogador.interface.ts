@@ -1,8 +1,9 @@
+import { AbstractDocument } from '@app/common';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 @Schema({ timestamps: true, collection: 'jogadores' })
-export class JogadorDef {
+export class JogadorDef extends AbstractDocument {
   @Prop({ required: true, unique: true })
   telefone: string;
   @Prop({ required: true, unique: true })

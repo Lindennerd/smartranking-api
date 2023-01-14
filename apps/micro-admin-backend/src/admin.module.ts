@@ -5,6 +5,8 @@ import * as Joi from 'joi';
 import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
 import { mongooseModule } from './interface';
+import { CategoriaRepository } from './repository/categoria.repository';
+import { JogadorRepository } from './repository/jogador.repository';
 
 @Module({
   imports: [
@@ -22,6 +24,6 @@ import { mongooseModule } from './interface';
     mongooseModule,
   ],
   controllers: [AdminController],
-  providers: [AdminService],
+  providers: [AdminService, CategoriaRepository, JogadorRepository],
 })
 export class AdminModule {}
