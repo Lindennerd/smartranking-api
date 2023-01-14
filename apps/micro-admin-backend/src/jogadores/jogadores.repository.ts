@@ -5,7 +5,7 @@ import { Connection, Model } from 'mongoose';
 import { Jogador, JogadorDef } from './interface';
 
 @Injectable()
-export class JogadorRepository extends AbstractRepository<Jogador> {
+export class JogadoresRepository extends AbstractRepository<Jogador> {
   protected logger = new Logger(JogadorDef.name);
 
   constructor(

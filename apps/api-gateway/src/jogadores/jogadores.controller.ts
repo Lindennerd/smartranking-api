@@ -3,10 +3,12 @@ import {
   CONSULTAR_JOGADOR,
   CONSULTAR_JOGADORES,
   CRIAR_JOGADOR,
+  DELETAR_JOGADOR,
 } from '@app/common/events';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Logger,
@@ -53,5 +55,10 @@ export class JogadoresController {
   @Get()
   async consultarJogadores() {
     return this.client.send(CONSULTAR_JOGADORES, '');
+  }
+
+  @Delete('/:_id')
+  async deletarJogador(@Param('_id') _id: string) {
+    return this.client.emit(DELETAR_JOGADOR, _id);
   }
 }
