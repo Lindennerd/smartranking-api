@@ -1,9 +1,7 @@
-import { RmqModule } from '@app/common';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-import { ApiGatewayController } from './api-gateway.controller';
-import { RMQ_ADMIN_SERVICE } from './constants';
+import { CategoriasModule } from './categorias/categorias.module';
 import { HttpLoggerMiddleware } from './middlewares/http-logger.middleware';
 
 @Module({
@@ -16,12 +14,9 @@ import { HttpLoggerMiddleware } from './middlewares/http-logger.middleware';
       }),
       envFilePath: './apps/api-gateway/.env',
     }),
-    RmqModule.register({
-      name: RMQ_ADMIN_SERVICE,
-    }),
+
+    CategoriasModule,
   ],
-  controllers: [ApiGatewayController],
-  providers: [],
 })
 export class ApiGatewayModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

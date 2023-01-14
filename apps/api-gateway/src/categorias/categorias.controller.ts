@@ -18,13 +18,13 @@ import {
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
-import { RMQ_ADMIN_SERVICE } from './constants';
+import { RMQ_ADMIN_SERVICE } from '../constants';
 import { AtualizarCategoriaDto } from './dtos/atualizar-categoria.dto';
 import { criarCategoriaDto } from './dtos/criar-categoria.dto';
 
 @Controller('api/v1')
-export class ApiGatewayController {
-  private readonly logger = new Logger(ApiGatewayController.name);
+export class CategoriasController {
+  private readonly logger = new Logger(CategoriasController.name);
 
   constructor(@Inject(RMQ_ADMIN_SERVICE) private client: ClientProxy) {}
 
