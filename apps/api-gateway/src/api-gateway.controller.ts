@@ -1,4 +1,9 @@
 import {
+  ATUALIZAR_CATEGORIAS,
+  CONSULTAR_CATEGORIAS,
+  CRIAR_CATEGORIA,
+} from '@app/common/events';
+import {
   Body,
   Controller,
   Get,
@@ -13,6 +18,7 @@ import {
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
+import { RMQ_ADMIN_SERVICE } from './constants';
 import { AtualizarCategoriaDto } from './dtos/atualizar-categoria.dto';
 import { criarCategoriaDto } from './dtos/criar-categoria.dto';
 
@@ -20,17 +26,17 @@ import { criarCategoriaDto } from './dtos/criar-categoria.dto';
 export class ApiGatewayController {
   private readonly logger = new Logger(ApiGatewayController.name);
 
-  constructor(@Inject('ADMIN') private client: ClientProxy) {}
+  constructor(@Inject(RMQ_ADMIN_SERVICE) private client: ClientProxy) {}
 
   @Post('categorias')
   @UsePipes(ValidationPipe)
   async criarCategoria(@Body() criarCategoriaDto: criarCategoriaDto) {
-    this.client.emit('criar-categoria', criarCategoriaDto);
+    this.client.emit(CRIAR_CATEGORIA, criarCategoriaDto);
   }
 
   @Get('categorias')
   consultarCategoria(@Query('idCategoria') id: string): Observable<any> {
-    return this.client.send('consultar-categorias', id || '');
+    return this.client.send(CONSULTAR_CATEGORIAS, id || '');
   }
 
   @Put('categorias/:_id')
@@ -39,7 +45,7 @@ export class ApiGatewayController {
     @Body() atualizarCategoria: AtualizarCategoriaDto,
     @Param('_id') _id: string,
   ) {
-    this.client.emit('atualizar-categoria', {
+    this.client.emit(ATUALIZAR_CATEGORIAS, {
       id: _id,
       categoria: atualizarCategoria,
     });

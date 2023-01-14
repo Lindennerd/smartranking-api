@@ -1,3 +1,9 @@
+import { RmqService } from '@app/common';
+import {
+  ATUALIZAR_CATEGORIAS,
+  CONSULTAR_CATEGORIAS,
+  CRIAR_CATEGORIA,
+} from '@app/common/events';
 import { Controller, Logger } from '@nestjs/common';
 import {
   Ctx,
@@ -12,36 +18,33 @@ import { Categoria } from './interface';
 
 @Controller()
 export class AdminController {
-  constructor(private readonly appService: AdminService) {}
+  constructor(
+    private readonly appService: AdminService,
+    private readonly rmqService: RmqService,
+  ) {}
 
   private readonly logger = new Logger(AdminController.name);
 
-  @EventPattern('criar-categoria')
+  @EventPattern(CRIAR_CATEGORIA)
   async criarCategoria(
     @Payload() categoria: Categoria,
     @Ctx() context: RmqContext,
   ) {
-    const channel = context.getChannelRef();
-    const originalMsg = context.getMessage();
-
     try {
       await this.appService.criarCategoria(categoria);
-      await channel.ack(originalMsg);
+      this.rmqService.ack(context);
     } catch (err) {
       this.logger.error(err);
       if (err.message.includes('E1100')) {
-        await channel.ack(originalMsg);
+        this.rmqService.ack(context);
       } else {
         throw new RpcException(err);
       }
     }
   }
 
-  @MessagePattern('consultar-categorias')
+  @MessagePattern(CONSULTAR_CATEGORIAS)
   async buscarCategorias(@Payload() id: string, @Ctx() context: RmqContext) {
-    const channel = context.getChannelRef();
-    const originalMsg = context.getMessage();
-
     try {
       if (id) {
         return await this.appService.buscarCategoria(id);
@@ -49,24 +52,21 @@ export class AdminController {
         return await this.appService.buscarCategorias();
       }
     } finally {
-      await channel.ack(originalMsg);
+      this.rmqService.ack(context);
     }
   }
 
-  @EventPattern('atualizar-categorias')
+  @EventPattern(ATUALIZAR_CATEGORIAS)
   async atualizarCategorias(@Payload() data: any, @Ctx() context: RmqContext) {
-    const channel = context.getChannelRef();
-    const originalMsg = context.getMessage();
-
     try {
       const _id = data.id;
       const categoria = data.categoria;
 
       await this.atualizarCategorias(_id, categoria);
-      await channel.ack(originalMsg);
+      this.rmqService.ack(context);
     } catch (error) {
       if (error.message.includes('E1100')) {
-        await channel.ack(originalMsg);
+        this.rmqService.ack(context);
       } else {
         throw new RpcException(error);
       }
