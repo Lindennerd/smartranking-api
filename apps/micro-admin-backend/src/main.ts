@@ -12,6 +12,6 @@ async function bootstrap() {
   app.connectMicroservice(rmqService.getOptions('ADMIN'));
   await app.startAllMicroservices();
 
-  logger.log('Started!');
+  logger.warn('Started!');
 }
 bootstrap();

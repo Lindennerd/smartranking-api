@@ -1,8 +1,9 @@
 import { RmqModule } from '@app/common';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { ApiGatewayController } from './api-gateway.controller';
+import { HttpLoggerMiddleware } from './middlewares/http-logger.middleware';
 
 @Module({
   imports: [
@@ -21,4 +22,8 @@ import { ApiGatewayController } from './api-gateway.controller';
   controllers: [ApiGatewayController],
   providers: [],
 })
-export class ApiGatewayModule {}
+export class ApiGatewayModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(HttpLoggerMiddleware).forRoutes('*');
+  }
+}
