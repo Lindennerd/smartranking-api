@@ -13,17 +13,17 @@ import {
   RmqContext,
   RpcException,
 } from '@nestjs/microservices';
-import { AdminService } from './admin.service';
+import { CategoriaService } from './categoria.service';
 import { Categoria } from './interface';
 
 @Controller()
-export class AdminController {
+export class CategoriaController {
   constructor(
-    private readonly appService: AdminService,
+    private readonly appService: CategoriaService,
     private readonly rmqService: RmqService,
   ) {}
 
-  private readonly logger = new Logger(AdminController.name);
+  private readonly logger = new Logger(CategoriaController.name);
 
   @EventPattern(CRIAR_CATEGORIA)
   async criarCategoria(

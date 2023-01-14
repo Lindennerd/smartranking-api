@@ -1,7 +1,7 @@
 import { AbstractDocument } from '@app/common';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { Jogador } from '../jogadores/jogador.interface';
+import { Jogador } from '../../jogadores/interface/jogador.interface';
 
 @Schema()
 export class EventoDef {

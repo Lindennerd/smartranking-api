@@ -2,7 +2,7 @@ import { AbstractRepository } from '@app/common';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
-import { Categoria, CategoriaDef } from '../interface';
+import { Categoria, CategoriaDef } from './interface';
 
 @Injectable()
 export class CategoriaRepository extends AbstractRepository<Categoria> {

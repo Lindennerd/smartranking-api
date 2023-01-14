@@ -1,17 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
+import { Aggregate } from 'mongoose';
+import { CategoriaRepository } from './categoria.repository';
 import { Categoria } from './interface';
-import { CategoriaRepository } from './repository/categoria.repository';
-import { JogadorRepository } from './repository/jogador.repository';
 
 @Injectable()
-export class AdminService {
-  constructor(
-    private readonly categoriaRepository: CategoriaRepository,
-    private readonly jogadorRepository: JogadorRepository,
-  ) {}
+export class CategoriaService {
+  constructor(private readonly categoriaRepository: CategoriaRepository) {}
 
-  private readonly logger = new Logger(AdminService.name);
+  private readonly logger = new Logger(CategoriaService.name);
 
   async criarCategoria(categoria: Categoria): Promise<Categoria> {
     try {
@@ -23,7 +20,15 @@ export class AdminService {
   }
 
   async buscarCategorias(): Promise<Categoria[]> {
-    return await this.categoriaRepository.find({});
+    //TODO! Might not be working
+    return await this.categoriaRepository.find({}, {
+      lookup(options) {
+        options.from = 'jogadores';
+        options.foreignField = '_id';
+        options.as = 'jogadoresCategoria';
+        options.localField = '$jogadores._id';
+      },
+    } as Aggregate<Categoria[]>);
   }
 
   async buscarCategoria(categoria: string): Promise<Categoria> {

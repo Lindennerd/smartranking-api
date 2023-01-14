@@ -1,12 +1,9 @@
-import { DatabaseModule, RmqModule } from '@app/common';
+import { DatabaseModule } from '@app/common';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-import { AdminController } from './admin.controller';
-import { AdminService } from './admin.service';
-import { mongooseModule } from './interface';
-import { CategoriaRepository } from './repository/categoria.repository';
-import { JogadorRepository } from './repository/jogador.repository';
+import { CategoriaModule } from './categoria/categoria.module';
+import { JogadoresModule } from './jogadores/jogadores.module';
 
 @Module({
   imports: [
@@ -19,11 +16,9 @@ import { JogadorRepository } from './repository/jogador.repository';
       }),
       envFilePath: 'apps/micro-admin-backend/.env',
     }),
-    RmqModule,
     DatabaseModule,
-    mongooseModule,
+    CategoriaModule,
+    JogadoresModule,
   ],
-  controllers: [AdminController],
-  providers: [AdminService, CategoriaRepository, JogadorRepository],
 })
 export class AdminModule {}
