@@ -15,6 +15,7 @@ export class HttpLoggerMiddleware implements NestMiddleware {
 
       this.logger.log({
         occurrence: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
+        method,
         requestedUrl: `${baseUrl} ${url}`,
         status: statusCode,
         contentLength: contentLength,
