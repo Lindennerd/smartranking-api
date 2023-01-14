@@ -2,6 +2,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { CategoriasModule } from './categorias/categorias.module';
+import { JogadoresModule } from './jogadores/jogadores.module';
 import { HttpLoggerMiddleware } from './middlewares/http-logger.middleware';
 
 @Module({
@@ -16,6 +17,7 @@ import { HttpLoggerMiddleware } from './middlewares/http-logger.middleware';
     }),
 
     CategoriasModule,
+    JogadoresModule,
   ],
 })
 export class ApiGatewayModule implements NestModule {
