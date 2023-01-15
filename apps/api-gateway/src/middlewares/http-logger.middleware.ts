@@ -21,6 +21,7 @@ export class HttpLoggerMiddleware implements NestMiddleware {
         contentLength: contentLength,
         userAgent: userAgent,
         origin: ip,
+        responseMessage: statusCode >= 400 ? res.statusMessage : undefined,
       });
     });
 

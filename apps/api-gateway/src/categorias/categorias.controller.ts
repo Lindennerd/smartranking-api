@@ -17,29 +17,31 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { ApiTags } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 import { RMQ_ADMIN_SERVICE } from '../constants';
 import { AtualizarCategoriaDto } from './dtos/atualizar-categoria.dto';
 import { criarCategoriaDto } from './dtos/criar-categoria.dto';
 
-@Controller('api/v1')
+@Controller('api/v1/categorias')
+@ApiTags('Categorias')
 export class CategoriasController {
   private readonly logger = new Logger(CategoriasController.name);
 
   constructor(@Inject(RMQ_ADMIN_SERVICE) private client: ClientProxy) {}
 
-  @Post('categorias')
+  @Post('')
   @UsePipes(ValidationPipe)
   async criarCategoria(@Body() criarCategoriaDto: criarCategoriaDto) {
     this.client.emit(CRIAR_CATEGORIA, criarCategoriaDto);
   }
 
-  @Get('categorias')
+  @Get('')
   consultarCategoria(@Query('idCategoria') id: string): Observable<any> {
     return this.client.send(CONSULTAR_CATEGORIAS, id || '');
   }
 
-  @Put('categorias/:_id')
+  @Put('/:_id')
   @UsePipes(ValidationPipe)
   atualizarCategoria(
     @Body() atualizarCategoria: AtualizarCategoriaDto,

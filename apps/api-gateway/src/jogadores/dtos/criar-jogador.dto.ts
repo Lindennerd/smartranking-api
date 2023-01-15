@@ -14,4 +14,7 @@ export class CriarJogadorDto {
   @IsString()
   @IsNotEmpty()
   readonly nome: string;
+
+  @IsString()
+  readonly categoria: string;
 }

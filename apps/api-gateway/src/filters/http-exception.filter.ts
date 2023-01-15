@@ -24,7 +24,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const message =
       exception instanceof HttpException ? exception.getResponse() : exception;
 
-    const logMessage = `Http Status ${status} Error ${message} `;
+    const logMessage = `Http Status ${status} Error ${JSON.stringify(
+      message,
+    )} `;
 
     if (status >= 500) this.logger.error(logMessage);
     else this.logger.warn(logMessage);
