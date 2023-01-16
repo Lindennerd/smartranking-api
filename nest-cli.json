@@ -52,6 +52,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
+    },
+    "desafios": {
+      "type": "application",
+      "root": "apps/desafios",
+      "entryFile": "main",
+      "sourceRoot": "apps/desafios/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/desafios/tsconfig.app.json"
+      }
     }
   }
 }
