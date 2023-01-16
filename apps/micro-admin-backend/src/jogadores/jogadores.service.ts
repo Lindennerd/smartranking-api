@@ -24,7 +24,10 @@ export class JogadoresService {
   }
 
   async atualizarJogador(id: string, jogador: Jogador): Promise<void> {
-    await this.jogadoresRepository.findOneAndUpdate({ _id: id }, jogador);
+    await this.jogadoresRepository.findOneAndUpdate(
+      { id: id },
+      { $set: jogador },
+    );
   }
 
   async deletarJogador(id: string): Promise<void> {

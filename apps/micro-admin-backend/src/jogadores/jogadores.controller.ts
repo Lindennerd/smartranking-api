@@ -46,7 +46,9 @@ export class JogadoresController {
   @EventPattern(ATUALIZAR_JOGADOR)
   async atualizaJogador(@Payload() data: any, @Ctx() context: RmqContext) {
     try {
-      this.jogadoresService.atualizarJogador(data.id, data.jogador);
+      this.logger.debug(data);
+
+      this.jogadoresService.atualizarJogador(data, data.jogador);
 
       this.rmqService.ack(context);
     } catch (error) {
@@ -61,7 +63,7 @@ export class JogadoresController {
   @EventPattern(DELETAR_JOGADOR)
   async deletarJogador(@Payload() data: any, @Ctx() context: RmqContext) {
     try {
-      this.jogadoresService.deletarJogador(data.id);
+      this.jogadoresService.deletarJogador(data);
 
       this.rmqService.ack(context);
     } catch (error) {
@@ -76,7 +78,7 @@ export class JogadoresController {
   @MessagePattern(CONSULTAR_JOGADOR)
   async consultarJogador(@Payload() data: any, @Ctx() context: RmqContext) {
     try {
-      return this.jogadoresService.buscarJogador(data.id);
+      return this.jogadoresService.buscarJogador(data);
     } finally {
       this.rmqService.ack(context);
     }
