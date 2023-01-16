@@ -10,4 +10,8 @@ export class AtualizarJogadorDto {
   @IsString()
   @IsOptional()
   readonly nome: string;
+
+  @IsString()
+  @IsOptional()
+  readonly urlFotoJogador: string;
 }
