@@ -4,6 +4,7 @@ import { AwsModule } from '../aws/aws.module';
 import { AwsService } from '../aws/aws.service';
 import { RMQ_ADMIN_SERVICE } from '../constants';
 import { JogadoresController } from './jogadores.controller';
+import { JogadoresService } from './jogadores.service';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { JogadoresController } from './jogadores.controller';
     AwsModule,
   ],
   controllers: [JogadoresController],
-  providers: [AwsService],
+  providers: [AwsService, JogadoresService],
+  exports: [JogadoresService],
 })
 export class JogadoresModule {}

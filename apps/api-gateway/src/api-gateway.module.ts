@@ -2,6 +2,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { CategoriasModule } from './categorias/categorias.module';
+import { DesafioModule } from './desafio/desafio.module';
 import { JogadoresModule } from './jogadores/jogadores.module';
 import { HttpLoggerMiddleware } from './middlewares/http-logger.middleware';
 
@@ -19,12 +20,14 @@ import { HttpLoggerMiddleware } from './middlewares/http-logger.middleware';
         S3_SECRET_ACCESS_KEY: Joi.string().required(),
         S3_BUCKET_NAME: Joi.string().required(),
         S3_REGION: Joi.string().required(),
+        ZIPKIN_URL: Joi.string().required(),
       }),
       envFilePath: './apps/api-gateway/.env',
     }),
 
     CategoriasModule,
     JogadoresModule,
+    DesafioModule,
   ],
 })
 export class ApiGatewayModule implements NestModule {

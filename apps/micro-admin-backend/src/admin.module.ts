@@ -16,6 +16,7 @@ import { JogadoresModule } from './jogadores/jogadores.module';
       }),
       envFilePath: 'apps/micro-admin-backend/.env',
     }),
+
     DatabaseModule,
     CategoriaModule,
     JogadoresModule,

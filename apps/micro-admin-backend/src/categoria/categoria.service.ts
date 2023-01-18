@@ -37,4 +37,8 @@ export class CategoriaService {
 
     return await this.categoriaRepository.findOne({ categoria });
   }
+
+  async buscarCategoriaJogador(idJogador: string): Promise<Categoria> {
+    return await this.categoriaRepository.findOne({ jogadores: idJogador });
+  }
 }

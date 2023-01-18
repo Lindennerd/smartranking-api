@@ -2,6 +2,7 @@ import { RmqService } from '@app/common';
 import {
   ATUALIZAR_CATEGORIAS,
   CONSULTAR_CATEGORIAS,
+  CONSULTAR_CATEGORIAS_JOGADOR,
   CRIAR_CATEGORIA,
 } from '@app/common/events';
 import { Controller, Logger } from '@nestjs/common';
@@ -35,7 +36,10 @@ export class CategoriaController {
       this.rmqService.ack(context);
     } catch (err) {
       this.logger.error(err);
-      if (err.message.includes('E1100')) {
+      if (
+        err.message.includes('E1100') ||
+        err.message.includes('ValidationError')
+      ) {
         this.rmqService.ack(context);
       } else {
         throw new RpcException(err);
@@ -51,6 +55,18 @@ export class CategoriaController {
       } else {
         return await this.appService.buscarCategorias();
       }
+    } finally {
+      this.rmqService.ack(context);
+    }
+  }
+
+  @MessagePattern(CONSULTAR_CATEGORIAS_JOGADOR)
+  async buscarCategoriaJogador(
+    @Payload() idJogador: string,
+    @Ctx() context: RmqContext,
+  ) {
+    try {
+      return await this.appService.buscarCategoriaJogador(idJogador);
     } finally {
       this.rmqService.ack(context);
     }
