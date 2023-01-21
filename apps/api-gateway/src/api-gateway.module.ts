@@ -20,7 +20,7 @@ import { HttpLoggerMiddleware } from './middlewares/http-logger.middleware';
         S3_SECRET_ACCESS_KEY: Joi.string().required(),
         S3_BUCKET_NAME: Joi.string().required(),
         S3_REGION: Joi.string().required(),
-        ZIPKIN_URL: Joi.string().required(),
+        JAEGER_URL: Joi.string().required(),
       }),
       envFilePath: './apps/api-gateway/.env',
     }),

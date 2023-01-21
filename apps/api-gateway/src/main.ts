@@ -1,3 +1,4 @@
+import { tracing } from '@app/common';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -11,6 +12,13 @@ const logger = new Logger('ApiGateway Bootstrap');
 async function bootstrap() {
   const app = await NestFactory.create(ApiGatewayModule);
   const configService = app.get(ConfigService);
+
+  const otel = await tracing(
+    'ApiGateway',
+    configService.get<string>('JAEGER_URL'),
+  );
+
+  otel.start();
 
   app.useGlobalFilters(new AllExceptionsFilter());
   app.useGlobalInterceptors(
